@@ -23,7 +23,7 @@ const rapidApi = async () => {
       method: 'GET',
       url: 'https://word-of-the-day2.p.rapidapi.com/word/today',
       headers: {
-        'X-RapidAPI-Key': '4bfa517ac1mshf78c6c042ab48f6p151beajsn2cd4ac687e6d',
+        'X-RapidAPI-Key': `${process.env.RAPID_API_KEY}`,
         'X-RapidAPI-Host': 'word-of-the-day2.p.rapidapi.com'
       },
     };
