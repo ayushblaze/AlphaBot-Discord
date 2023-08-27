@@ -1,5 +1,4 @@
 const { Client, IntentsBitField } = require("discord.js");
-const axios = require("axios");
 require("dotenv").config();
 
 const client = new Client({
@@ -49,24 +48,6 @@ client.on("messageCreate", (message) => {
   }
   if (message.content == "ping")  {
     message.reply("pong!");
-  }
-});
-
-client.on("interactionCreate", async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
-
-  if (interaction.commandName === "hey") {
-    interaction.reply("Hey!!");
-  }
-
-  if (interaction.commandName === "word") {
-    // interaction.reply("okay");
-    try {
-      const message = await rapidApi();
-      await interaction.reply(message);
-    } catch (err) {
-      console.log("error inside if", err.requestBody);
-    }
   }
 });
 
