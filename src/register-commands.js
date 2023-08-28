@@ -2,41 +2,45 @@ const { REST, Routes, ApplicationCommandOptionType } = require("discord.js");
 require("dotenv").config();
 
 const commands = [
+  // {
+  //   name: "hey",
+  //   description: "Replies with hey!",
+  // },
+  // {
+  //   name: "add",
+  //   description: "adds two numbers",
+  //   options: [
+  //     {
+  //       name: "first-number",
+  //       description: "The first number.",
+  //       type: ApplicationCommandOptionType.Number,
+  //       required: true,
+  //       choices: [
+  //         {
+  //           name: "one",
+  //           value: 1,
+  //         },
+  //         {
+  //           name: "two",
+  //           value: 2,
+  //         },
+  //         {
+  //           name: "three",
+  //           value: 3,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       name: "second-number",
+  //       description: "The second number.",
+  //       type: ApplicationCommandOptionType.Number,
+  //       required: true,
+  //     }
+  //   ],
+  // },
   {
-    name: "hey",
-    description: "Replies with hey!",
-  },
-  {
-    name: "add",
-    description: "adds two numbers",
-    options: [
-      {
-        name: "first-number",
-        description: "The first number.",
-        type: ApplicationCommandOptionType.Number,
-        required: true,
-        choices: [
-          {
-            name: "one",
-            value: 1,
-          },
-          {
-            name: "two",
-            value: 2,
-          },
-          {
-            name: "three",
-            value: 3,
-          },
-        ],
-      },
-      {
-        name: "second-number",
-        description: "The second number.",
-        type: ApplicationCommandOptionType.Number,
-        required: true,
-      }
-    ],
+    name: "embed",
+    description: "Sends an embed",
   },
 ];
 
