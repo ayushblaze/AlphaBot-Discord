@@ -16,40 +16,49 @@ client.on("ready", (client) => {
   );
 });
 
-const rapidApi = async () => {
-  let message = "";
-    const options = {
-      method: 'GET',
-      url: 'https://word-of-the-day2.p.rapidapi.com/word/today',
-      headers: {
-        'X-RapidAPI-Key': `${process.env.RAPID_API_KEY}`,
-        'X-RapidAPI-Host': 'word-of-the-day2.p.rapidapi.com'
-      },
-    };
+// const rapidApi = async () => {
+//   let message = "";
+//     const options = {
+//       method: 'GET',
+//       url: 'https://word-of-the-day2.p.rapidapi.com/word/today',
+//       headers: {
+//         'X-RapidAPI-Key': `${process.env.RAPID_API_KEY}`,
+//         'X-RapidAPI-Host': 'word-of-the-day2.p.rapidapi.com'
+//       },
+//     };
 
-    try {
-      const response = await axios.request(options);
-      const wordObj = response.data[1];
-      message = `
-        Date: ${wordObj.date}
-        Word: ${(wordObj.word).toUpperCase()}
-        Meaning: ${wordObj.mean}
-      `;
-      return message;
-    } catch (err) {
-      console.error(err);
-    }
-    console.log("from the async function", message);
-};
+//     try {
+//       const response = await axios.request(options);
+//       const wordObj = response.data[1];
+//       message = `
+//         Date: ${wordObj.date}
+//         Word: ${(wordObj.word).toUpperCase()}
+//         Meaning: ${wordObj.mean}
+//       `;
+//       return message;
+//     } catch (err) {
+//       console.error(err);
+//     }
+//     console.log("from the async function", message);
+// };
 
 client.on("messageCreate", (message) => {
   if (message.author.bot) {
     return;
   }
+
   if (message.content == "ping")  {
     message.reply("pong!");
   }
 });
 
+client.on("interactionCreate", (interaction) => {
+  if (interaction.commandName === "add") {
+    const numOne = interaction.options.get("first-number").value;
+    const numTwo = interaction.options.get("second-number").value;
+
+    interaction.reply(`The sum is ${numOne + numTwo}`);
+  }
+});
 
 client.login(process.env.TOKEN);
