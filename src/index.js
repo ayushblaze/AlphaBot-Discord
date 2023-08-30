@@ -1,5 +1,6 @@
-const { Client, IntentsBitField, EmbedBuilder } = require("discord.js");
 require("dotenv").config();
+const { Client, IntentsBitField, EmbedBuilder } = require("discord.js");
+const fetch = require("node-fetch");
 
 const client = new Client({
   intents: [
@@ -16,39 +17,41 @@ client.on("ready", (client) => {
   );
 });
 
-// const rapidApi = async () => {
-//   let message = "";
-//     const options = {
-//       method: 'GET',
-//       url: 'https://word-of-the-day2.p.rapidapi.com/word/today',
-//       headers: {
-//         'X-RapidAPI-Key': `${process.env.RAPID_API_KEY}`,
-//         'X-RapidAPI-Host': 'word-of-the-day2.p.rapidapi.com'
-//       },
-//     };
-
-//     try {
-//       const response = await axios.request(options);
-//       const wordObj = response.data[1];
-//       message = `
-//         Date: ${wordObj.date}
-//         Word: ${(wordObj.word).toUpperCase()}
-//         Meaning: ${wordObj.mean}
-//       `;
-//       return message;
-//     } catch (err) {
-//       console.error(err);
-//     }
-//     console.log("from the async function", message);
-// };
-
-client.on("messageCreate", (message) => {
+client.on("messageCreate", async (message) => {
   if (message.author.bot) {
     return;
   }
 
   if (message.content == "ping")  {
     message.reply("pong!");
+  }
+
+  if (message.content == "word") {
+    try {
+      const headers = {
+        'X-RapidAPI-Key': `${process.env.RAPID_API_KEY}`,
+        'X-RapidAPI-Host': 'word-of-the-day2.p.rapidapi.com'
+      };
+      const options = {
+        method: "GET",
+        headers,
+      };
+      const response = await fetch("https://word-of-the-day2.p.rapidapi.com/word/today", options);
+      const res = await response.json();
+      console.log(res);
+      let res_word = res[1].word.toUpperCase();
+      let res_meaning = res[1].mean.charAt(0).toUpperCase() + res[1].mean.slice(1);
+      const embed = new EmbedBuilder()
+        .setTitle(res_word)
+        .setDescription(res_meaning)
+        .setColor("Random");
+      // const msg = `
+      //   date: ${res[1].date}\nword: ${res[1].word.toUpperCase()}\nmeaning: ${res[1].mean.toUpperCase()}
+      // `;
+      message.reply({ embeds: [embed] });
+    } catch (err) {
+      console.log(err);
+    }
   }
 });
 
