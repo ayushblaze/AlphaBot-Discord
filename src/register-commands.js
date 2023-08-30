@@ -44,17 +44,20 @@ const commands = [
   },
 ];
 
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
-(async() => {
+(async () => {
   try {
     console.log("Registering slash commands...");
     await rest.put(
-      Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID),
+      Routes.applicationGuildCommands(
+        process.env.CLIENT_ID,
+        process.env.GUILD_ID
+      ),
       { body: commands }
     );
     console.log("slash commands were registered successfully!");
   } catch (err) {
-    console.log(`An error occured: ${err}`);
+    console.error(`An error occured: ${err}`);
   }
 })();
