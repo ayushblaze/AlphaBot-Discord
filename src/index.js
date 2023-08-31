@@ -45,9 +45,6 @@ client.on("messageCreate", async (message) => {
         .setTitle(res_word)
         .setDescription(res_meaning)
         .setColor("Random");
-      // const msg = `
-      //   date: ${res[1].date}\nword: ${res[1].word.toUpperCase()}\nmeaning: ${res[1].mean.toUpperCase()}
-      // `;
       message.reply({ embeds: [embed] });
     } catch (err) {
       console.log(err);
