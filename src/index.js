@@ -18,13 +18,7 @@ client.on("ready", (client) => {
 });
 
 client.on("messageCreate", async (message) => {
-  if (message.author.bot) {
-    return;
-  }
-
-  if (message.content == "ping")  {
-    message.reply("pong!");
-  }
+  if (message.author.bot) return;
 
   if (message.content == "word") {
     try {
