@@ -37,7 +37,7 @@ client.on("ready", async (client) => {
     });
     process.exit();
   } catch (err) {
-
+    console.log(err);
   }
 });
 

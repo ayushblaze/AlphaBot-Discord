@@ -46,33 +46,57 @@ client.on("messageCreate", async (message) => {
   }
 });
 
-client.on("interactionCreate", (interaction) => {
-  if (interaction.commandName === "add") {
-    const numOne = interaction.options.get("first-number").value;
-    const numTwo = interaction.options.get("second-number").value;
+// client.on("interactionCreate", (interaction) => {
+//   if (interaction.commandName === "add") {
+//     const numOne = interaction.options.get("first-number").value;
+//     const numTwo = interaction.options.get("second-number").value;
 
-    interaction.reply(`The sum is ${numOne + numTwo}`);
-  }
+//     interaction.reply(`The sum is ${numOne + numTwo}`);
+//   }
 
-  if (interaction.commandName === "embed") {
-    const embed = new EmbedBuilder()
-      .setTitle("Title")
-      .setDescription("This is an embed")
-      .setColor("Random")
-      .addFields(
-        {
-          name: "Field title",
-          value: "Some random value",
-          inline: true,
-        },
-        {
-          name: "Field2 title",
-          value: "Some random value",
-          inline: true,
-        }
-      );
+//   if (interaction.commandName === "embed") {
+//     const embed = new EmbedBuilder()
+//       .setTitle("Title")
+//       .setDescription("This is an embed")
+//       .setColor("Random")
+//       .addFields(
+//         {
+//           name: "Field title",
+//           value: "Some random value",
+//           inline: true,
+//         },
+//         {
+//           name: "Field2 title",
+//           value: "Some random value",
+//           inline: true,
+//         }
+//       );
 
-    interaction.reply({ embeds: [embed] });
+//     interaction.reply({ embeds: [embed] });
+//   }
+// });
+
+client.on("interactionCreate", async (interaction) => {
+  if (interaction.isButton()) {
+    await interaction.deferReply({ ephemeral: true });
+    const role = interaction.guild.roles.cache.get(interaction.customId);
+    if (!role) {
+      interaction.editReply({
+        content: "I couldn't find that role",
+      });
+      return;
+    }
+
+    const hasRole = interaction.member.roles.cache.get(role.id);
+
+    if (hasRole) {
+      await interaction.member.roles.remove(role);
+      await interaction.editReply(`The ${role} has been removed.`);
+      return;
+    }
+
+    await interaction.member.roles.add(role);
+    await interaction.editReply(`The ${role} has been added.`);
   }
 });
 
