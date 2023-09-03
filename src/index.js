@@ -1,5 +1,6 @@
 require("dotenv").config();
-const { Client, IntentsBitField, EmbedBuilder } = require("discord.js");
+const { Client, IntentsBitField, EmbedBuilder, ActivityType } = require("discord.js");
+const { DateTime } = require('luxon');
 const fetch = require("node-fetch");
 
 const client = new Client({
@@ -15,6 +16,45 @@ client.on("ready", (client) => {
   console.log(
     `---------------------\n${client.user.tag} is ${client.presence.status}🤖✅\n---------------------`
   );
+
+  // client.user.setActivity({
+  //   name: "Valorant",
+  //   type: ActivityType.Streaming,
+  //   url: "https://www.youtube.com/watch?v=_qKhUKCeBQw&t",
+  // });
+});
+
+client.on("guildMemberAdd", (member) => {
+  const server = member.guild;
+  console.log(member.guild);
+  const serverIconURL = server.iconURL({ format: 'png' });
+  
+  const channelId = "1147471149714903121";
+
+  function convertUnixTimestampToIST(unixTimestamp) {
+    // Convert the Unix timestamp to milliseconds
+    const timestampInMilliseconds = unixTimestamp;
+
+    // Create a Luxon DateTime object with the converted timestamp
+    const dateTime = DateTime.fromMillis(timestampInMilliseconds);
+
+    // Set the time zone to Indian Standard Time (IST)
+    const istDateTime = dateTime.setZone("Asia/Kolkata");
+
+    // Format IST time as "HH:mm:ss IST"
+    const istTime = istDateTime.toFormat('HH:mm:ss ZZZ', { locale: 'en-IN' });
+
+    // Return the IST time
+    return istTime;
+  }
+
+  const finalMessage = convertUnixTimestampToIST(member.guild.joinedTimestamp);
+
+  const channel = member.guild.channels.cache.get(channelId);
+  channel.send(finalMessage, {
+    files: [serverIconURL],
+  });
+  // channel.send(finalMessage);
 });
 
 client.on("messageCreate", async (message) => {
